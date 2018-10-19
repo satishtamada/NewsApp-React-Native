@@ -1,4 +1,4 @@
-#FileManager
+#NewsApp
 Android filemanager provides a user interface to manage files and folders. Here we develop a simple filemanager demo how to manage your internal and external files and folder on your android devices.
 ##Overview
 This article will take a comprehensive look at working with files and folders.It provides a simple way to present a scrolling list of rows that can either files or folders.
@@ -11,5 +11,5 @@ This article will take a comprehensive look at working with files and folders.It
  * play your audio,video files
  * open image files
 
-![alt tag](https://github.com/satishtamada/NewsApp-React-Native/screenshots/splashscreen.jpg)
+![alt tag](https://github.com/satishtamada/NewsApp-React-Native/blob/master/screensshots/splashscreen.png)
 
