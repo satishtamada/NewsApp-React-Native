@@ -1,0 +1,3 @@
+rootProject.name = 'NewsReact'
+
+include ':app'
