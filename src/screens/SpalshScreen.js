@@ -93,7 +93,7 @@ export default class SpalshScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0e53e8",
+    backgroundColor: "#0050ff",
     justifyContent: "center",
     alignItems: "center"
   },
