@@ -1,5 +1,5 @@
 #NewsApp
-Android filemanager provides a user interface to manage files and folders. Here we develop a simple filemanager demo how to manage your internal and external files and folder on your android devices.
+React-Native NewsApp provides a user interface to manage files and folders. Here we develop a simple filemanager demo how to manage your internal and external files and folder on your android devices.
 ##Overview
 This article will take a comprehensive look at working with files and folders.It provides a simple way to present a scrolling list of rows that can either files or folders.
 
