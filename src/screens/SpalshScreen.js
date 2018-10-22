@@ -7,6 +7,24 @@ import {
   Platform,
   StyleSheet
 } from "react-native";
+import { createStackNavigator } from "react-navigation";
+import NewsFeed from "../screens/NewsFeed";
+import FeedView from "../screens/FeedView";
+
+const AppStackNavigator = createStackNavigator({
+  NewsFeed: {
+    screen: NewsFeed,
+    navigationOptions: {
+      header: null
+    }
+  },
+  FeedView: {
+    screen: FeedView,
+    navigationOptions: {
+      header: null
+    }
+  }
+});
 
 class BlinkText extends Component {
   constructor(props) {
@@ -22,7 +40,9 @@ class BlinkText extends Component {
     if (this.state.isShowing) {
       return (
         <View>
-          <Text style={{ color: "#ffce5c",fontWeight:"bold" }}>{this.props.value}</Text>
+          <Text style={{ color: "#ffce5c", fontWeight: "bold" }}>
+            {this.props.value}
+          </Text>
         </View>
       );
     } else {
@@ -35,13 +55,32 @@ class Logo extends Component {
   render() {
     return (
       <View>
-        <Image source={this.props.url} style={{ width: 30, height: 30 ,padding:5}} />
+        <Image
+          source={this.props.url}
+          style={{ width: 30, height: 30, padding: 5 }}
+        />
       </View>
     );
   }
 }
 
 export default class SpalshScreen extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoading: false
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(
+      function() {
+        this.setState({ isLoading: true });
+      }.bind(this),
+      2000
+    );
+  }
+
   render() {
     let pic = "";
     let osName = "";
@@ -53,40 +92,46 @@ export default class SpalshScreen extends Component {
       pic = require("../images/ic_android.png");
       osName = "Android";
     }
-    return (
-      <View style={styles.container}>
-        <View style={styles.bodyContainer}>
-          <Image
-            source={require("../images/ic_news.png")}
-            style={styles.logo}
-          />
-          <Text style={styles.title}> News App - React</Text>
-        </View>
+    if (this.state.isLoading) {
+      return <AppStackNavigator />;
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.bodyContainer}>
+            <Image
+              source={require("../images/ic_news.png")}
+              style={styles.logo}
+            />
+            <Text style={styles.title}> News App - React</Text>
+          </View>
 
-        <View style={styles.footer}>
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row"
-            }}
-          >
-            <Logo url={pic} />
-            <Text style={{padding:5}}>App is developed in React Native</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row"
-            }}
-          >
-            <Text>React-Native </Text>
-            <BlinkText value={osName} />
+          <View style={styles.footer}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Logo url={pic} />
+              <Text style={{ padding: 5 }}>
+                App is developed in React Native
+              </Text>
+            </View>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Text>React-Native </Text>
+              <BlinkText value={osName} />
+            </View>
           </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
