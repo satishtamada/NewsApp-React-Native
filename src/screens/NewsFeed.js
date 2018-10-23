@@ -10,10 +10,13 @@ import {
   TouchableHighlight
 } from "react-native";
 import * as appConst from "../../src/config/Config";
-import FeedView from '../screens/FeedView';
+import FeedView from "../screens/FeedView";
 
 var feed = [];
 export default class NewsFeed extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `news feed`,
+  });
   constructor() {
     super();
     const ds = new ListView.DataSource({
@@ -40,7 +43,19 @@ export default class NewsFeed extends Component {
         console.log("reset client error-------", error);
       });
   }
+  onListItemClicked(rowData) {
+    alert(rowData.author);
+    this.props.navigation.navigate("FeedView", {
+      author: rowData.author,
+      title: rowData.title,
+      description:rowData.description,
+      url:rowData.url,
+      urlToImage:rowData.urlToImage,
+      publishedAt:rowData.publishedAt
+    });
+  }
   render() {
+    const { navigate } = this.props.navigation;
     if (this.state.isLoading) {
       return (
         <View>
@@ -49,14 +64,9 @@ export default class NewsFeed extends Component {
             dataSource={this.state.dataSource}
             renderRow={rowData => (
               <View style={styles.listitem}>
-                <TouchableHighlight onPress={
-                  ()=>{
-                    this.props.navigator.navigate({
-                      component: FeedView,
-                      props: { title:rowData.title }
-                    });
-                  }
-                }>
+                <TouchableHighlight
+                  onPress={() => this.onListItemClicked(rowData)}
+                >
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
                       <Text style={styles.authorName}>{rowData.author}</Text>

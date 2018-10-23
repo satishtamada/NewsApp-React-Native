@@ -14,9 +14,7 @@ import FeedView from "../screens/FeedView";
 const AppStackNavigator = createStackNavigator({
   NewsFeed: {
     screen: NewsFeed,
-    navigationOptions: {
-      header: null
-    }
+    
   },
   FeedView: {
     screen: FeedView,
@@ -77,7 +75,7 @@ export default class SpalshScreen extends Component {
       function() {
         this.setState({ isLoading: true });
       }.bind(this),
-      2000
+      200
     );
   }
 
