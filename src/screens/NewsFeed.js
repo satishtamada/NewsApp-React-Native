@@ -6,6 +6,7 @@ import {
   ListView,
   StyleSheet,
   Dimensions,
+  TouchableOpacity,
   ActivityIndicator,
   TouchableHighlight
 } from "react-native";
@@ -14,9 +15,50 @@ import FeedView from "../screens/FeedView";
 
 var feed = [];
 export default class NewsFeed extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: `news feed`,
-  });
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <TouchableOpacity
+          onPress={() => navigation.navigate(DrawerExample)}
+          style={{
+            alignSelf: "stretch",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Image
+              style={{
+                width: 25,
+                height: 25,
+                marginLeft:10,
+            
+              }}
+              source={require("../images/ic_back_arrow.png")}
+            />
+          </View>
+        </TouchableOpacity>
+      ),
+
+      title: navigation.state.params.title,
+      headerStyle: {
+        backgroundColor: "#0050ff"
+      },
+      headerTintColor: "#ffffff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        justifyContent: "center",
+        alignItems: "center"
+      }
+    };
+  };
   constructor() {
     super();
     const ds = new ListView.DataSource({
@@ -44,14 +86,13 @@ export default class NewsFeed extends Component {
       });
   }
   onListItemClicked(rowData) {
-    alert(rowData.author);
     this.props.navigation.navigate("FeedView", {
       author: rowData.author,
       title: rowData.title,
-      description:rowData.description,
-      url:rowData.url,
-      urlToImage:rowData.urlToImage,
-      publishedAt:rowData.publishedAt
+      description: rowData.description,
+      url: rowData.url,
+      urlToImage: rowData.urlToImage,
+      publishedAt: rowData.publishedAt
     });
   }
   render() {
@@ -70,7 +111,9 @@ export default class NewsFeed extends Component {
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
                       <Text style={styles.authorName}>{rowData.author}</Text>
-                      <Text style={styles.title}>{rowData.title}</Text>
+                      <Text numberOfLines={2} style={styles.title}>
+                        {rowData.title}
+                      </Text>
                       <Text style={styles.publishedAt}>
                         {rowData.publishedAt}
                       </Text>

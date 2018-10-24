@@ -10,14 +10,27 @@ import {
 import { createStackNavigator } from "react-navigation";
 import NewsFeed from "../screens/NewsFeed";
 import FeedView from "../screens/FeedView";
+import NewsWebView from "../screens/NewsWebView";
+import HomeScreen from "../screens/HomeScreen";
 
 const AppStackNavigator = createStackNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
   NewsFeed: {
-    screen: NewsFeed,
-    
+    screen: NewsFeed
   },
   FeedView: {
     screen: FeedView,
+    navigationOptions: {
+      header: null
+    }
+  },
+  NewsWebView: {
+    screen: NewsWebView,
     navigationOptions: {
       header: null
     }
@@ -30,8 +43,11 @@ class BlinkText extends Component {
     this.state = {
       isShowing: true
     };
+
     setInterval(() => {
-      this.setState({ isShowing: !this.state.isShowing });
+      this.setState(previousState => {
+        return { isShowing: !previousState.isShowing };
+      });
     }, 1000);
   }
   render() {
