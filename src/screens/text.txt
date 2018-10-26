@@ -48,3 +48,65 @@ headerTitle: (
           </View>
         </TouchableOpacity>
       ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <View style={styles.headerItem}>
+              <TouchableOpacity
+                onPress={() => this.onNewsFeedBannerClicked("sports")}
+              >
+                <Image
+                  style={styles.logo}
+                  source={{
+                    uri:
+                      "https://techcrunch.com/wp-content/uploads/2018/03/gettyimages-917474100.jpg?w=600"
+                  }}
+                />
+                <View
+                  style={{
+                    width: screenWidth,
+                    flex: 1,
+                    flexDirection: "column",
+                    backgroundColor: "rgba(0, 0, 0, 0.3)",
+                    position: "absolute",
+                    bottom: 0,
+                    paddingBottom: 30
+                  }}
+                >
+                  <Text
+                    style={{
+                      padding: 10,
+                      color: "#ffffff",
+                      fontSize: 18,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    Sports
+                  </Text>
+                  <Text
+                    style={{
+                      paddingRight: 10,
+                      paddingBottom: 10,
+                      paddingLeft: 10,
+                      color: "#ffffff"
+                    }}
+                  >
+                    This is hwta i needed to get a touchable working.{" "}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>

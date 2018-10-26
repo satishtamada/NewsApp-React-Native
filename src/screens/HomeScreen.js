@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { IndicatorViewPager, PagerDotIndicator } from "rn-viewpager";
 import * as appConst from "../../src/config/Config";
+import PagerItem from "../../src/components/PagerItem";
 
 var feed = [];
 const screenWidth = Dimensions.get("window").width;
@@ -43,7 +44,7 @@ export default class HomeScreen extends Component {
   }
 
   _renderDotIndicator() {
-    return <PagerDotIndicator pageCount={2} />;
+    return <PagerDotIndicator pageCount={3} />;
   }
 
   onNewsFeedBannerClicked(value) {
@@ -59,63 +60,30 @@ export default class HomeScreen extends Component {
             style={{ flex: 1 }}
             indicator={this._renderDotIndicator()}
           >
-            <View style={styles.headerItem}>
-              <TouchableOpacity
-                onPress={() => this.onNewsFeedBannerClicked("sports")}
-              >
-                <Image
-                  style={styles.logo}
-                  source={{
-                    uri:
-                      "https://techcrunch.com/wp-content/uploads/2018/03/gettyimages-917474100.jpg?w=600"
-                  }}
-                />
-                <View
-                  style={{
-                    width: screenWidth,
-                    flex: 1,
-                    flexDirection: "column",
-                    backgroundColor: "rgba(0, 0, 0, 0.3)",
-                    position: "absolute",
-                    bottom: 0,
-                    paddingBottom: 30
-                  }}
-                >
-                  <Text
-                    style={{
-                      padding: 10,
-                      color: "#ffffff",
-                      fontSize: 18,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    Sports
-                  </Text>
-                  <Text
-                    style={{
-                      paddingRight: 10,
-                      paddingBottom: 10,
-                      paddingLeft: 10,
-                      color: "#ffffff"
-                    }}
-                  >
-                    This is hwta i needed to get a touchable working.{" "}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+            <View>
+              <PagerItem
+                name="Tech"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+            <View>
+              <PagerItem
+                name="Sports"
+                url="https://i.amz.mshcdn.com/QmY_VRk40y1QTiLJ24VFHHSJAaM=/1200x630/2018%2F10%2F04%2F8a%2F7ec72af7b5df413b9c9671f791017097.ca516.jpg"
+              />
             </View>
 
-            <View style={styles.containerThree}>
-              <Image
-                style={styles.logo}
-                source={require("../images/ic_android.png")}
+            <View>
+              <PagerItem
+                name="Tech"
+                url="https://i.amz.mshcdn.com/HJCeyphv-e4ID3xiRPXcqQQxPyU=/1200x630/2018%2F10%2F09%2Ff0%2F03254e2386a54cf6b7e224e0e6dd13dd.dbe5f.jpg"
               />
             </View>
           </IndicatorViewPager>
         </View>
 
         <View style={styles.bodyContainer}>
-          <Text style={{ padding: 10,fontWeight:'bold'}}>Top Headlines</Text>
+          <Text style={{ padding: 10, fontWeight: "bold" }}>Top Headlines</Text>
           <ListView
             enableEmptySections={true}
             dataSource={this.state.dataSource}
