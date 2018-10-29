@@ -47,9 +47,24 @@ export default class HomeScreen extends Component {
     return <PagerDotIndicator pageCount={3} />;
   }
 
-  onNewsFeedBannerClicked(value) {
-    this.props.navigation.navigate("NewsFeed", {
-      title: value
+  onNewsFeedBannerClicked(rowData) {
+    this.props.navigation.navigate("FeedView", {
+      author: rowData.author,
+      title: rowData.title,
+      description: rowData.description,
+      url: rowData.url,
+      urlToImage: rowData.urlToImage,
+      publishedAt: rowData.publishedAt
+    });
+  }
+  onBookmarksListClicked() {
+    this.props.navigation.navigate("Bookmarks", {
+      title: "Bookmarks"
+    });
+  }
+  onSearchClicked() {
+    this.props.navigation.navigate("SearchNews", {
+      title: "Search"
     });
   }
   render() {
@@ -80,6 +95,32 @@ export default class HomeScreen extends Component {
               />
             </View>
           </IndicatorViewPager>
+
+          <View
+            style={{
+              justifyContent: "flex-end",
+              width: screenWidth,
+              flexDirection: "row",
+              padding: 15,
+              right: 0,
+              position: "absolute",
+              backgroundColor: "rgba(0, 0, 0, 0.3)"
+            }}
+          >
+            <TouchableHighlight onPress={() => this.onBookmarksListClicked()}>
+              <Image
+                source={require("../images/ic_bookmark_list.png")}
+                style={{ width: 25, height: 25, marginRight: 15 }}
+              />
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => this.onSearchClicked()}>
+              <Image
+                source={require("../images/ic_search.png")}
+                style={{ width: 25, height: 25 }}
+              />
+            </TouchableHighlight>
+          </View>
         </View>
 
         <View style={styles.bodyContainer}>
@@ -89,7 +130,9 @@ export default class HomeScreen extends Component {
             dataSource={this.state.dataSource}
             renderRow={rowData => (
               <View style={styles.listitem}>
-                <TouchableHighlight>
+                <TouchableHighlight
+                  onPress={() => this.onNewsFeedBannerClicked(rowData)}
+                >
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
                       <Text style={styles.authorName}>{rowData.author}</Text>

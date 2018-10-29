@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
+  TouchableHighlight,
   Image,
   StyleSheet,
   Dimensions
@@ -20,6 +20,10 @@ export default class PagerItem extends Component {
     });
   }
 
+  onCLickes(value) {
+    alert(value);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -29,11 +33,30 @@ export default class PagerItem extends Component {
             uri: this.props.url
           }}
         />
-        <View style={styles.footerContainer}>
-          <Text style={styles.title}>{this.props.name}</Text>
-          <Text style={styles.description}>
-            This is hwta i needed to get a touchable working.
-          </Text>
+        <TouchableHighlight
+          style={styles.footerContainer}
+          onPress={() => this.onNewsFeedBannerClicked("hello")}
+        >
+          <View style={styles.footerContainer}>
+            <Text style={styles.title}>{this.props.name}</Text>
+            <Text style={styles.description}>
+              This is hwta i needed to get a touchable working.
+            </Text>
+          </View>
+        </TouchableHighlight>
+
+        <View
+          style={{
+            padding: 10,
+            top:0,
+            left:0,
+            position: "absolute",
+          }}
+        >
+          <Image
+            source={require("../images/ic_news.png")}
+            style={{ width: 30, height: 30 }}
+          />
         </View>
       </View>
     );

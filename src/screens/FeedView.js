@@ -9,9 +9,13 @@ import {
 } from "react-native";
 
 const screenWidht = Dimensions.get("window").width;
+
 export default class FeedView extends Component {
   constructor(props) {
     super(props);
+    this.setState = {
+      isChecked: false
+    };
   }
 
   onFindMoreDetailsClicked(url) {
@@ -20,14 +24,38 @@ export default class FeedView extends Component {
     });
   }
 
+  onBookmarkClicked(url) {
+    this.isChecked = true;
+  }
+
   render() {
     const { params } = this.props.navigation.state;
+    let bookmark;
+    if (this.isChecked) {
+      bookmark = require("../images/ic_more.png");
+    } else {
+      bookmark = require("../images/ic_bookmark_selected.png");
+    }
+
     return (
       <View style={styles.container}>
         <Image source={{ uri: params.urlToImage }} style={styles.image} />
 
         <View style={styles.bodyContainer}>
-          <Text style={styles.authorName}>{params.author}</Text>
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              alignContent: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text style={styles.authorName}>{params.author}</Text>
+            <TouchableOpacity onPress={() => this.onBookmarkClicked("dad")}>
+              <Image source={bookmark} style={{ width: 25, height: 25 }} />
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.publishedAt}>{params.publishedAt}</Text>
 
           <Text style={styles.title}>{params.title}</Text>
@@ -37,7 +65,7 @@ export default class FeedView extends Component {
         </View>
         <View style={styles.fooetrConatiner}>
           <TouchableOpacity
-            onPress={ () => this.onFindMoreDetailsClicked(params.url)}
+            onPress={() => this.onFindMoreDetailsClicked(params.url)}
             style={{ flexDirection: "row", alignItems: "center" }}
           >
             <Image
@@ -54,6 +82,7 @@ export default class FeedView extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#ffffff",
     flex: 1,
     flexDirection: "column"
   },
@@ -73,6 +102,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   authorName: {
+    flex: 1,
+    width: "100%",
     padding: 12,
     color: "#90a4a8",
     fontSize: 14

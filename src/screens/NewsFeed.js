@@ -12,40 +12,13 @@ import {
 } from "react-native";
 import * as appConst from "../../src/config/Config";
 import FeedView from "../screens/FeedView";
+import NavigationBackButton from "../../src/components/NavigationBackButton";
 
 var feed = [];
 export default class NewsFeed extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft: (
-        <TouchableOpacity
-          onPress={() => navigation.navigate(DrawerExample)}
-          style={{
-            alignSelf: "stretch",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Image
-              style={{
-                width: 25,
-                height: 25,
-                marginLeft:10,
-            
-              }}
-              source={require("../images/ic_back_arrow.png")}
-            />
-          </View>
-        </TouchableOpacity>
-      ),
+      headerLeft: <NavigationBackButton />,
 
       title: navigation.state.params.title,
       headerStyle: {

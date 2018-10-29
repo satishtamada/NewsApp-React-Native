@@ -12,6 +12,8 @@ import NewsFeed from "../screens/NewsFeed";
 import FeedView from "../screens/FeedView";
 import NewsWebView from "../screens/NewsWebView";
 import HomeScreen from "../screens/HomeScreen";
+import Bookmarks from "../screens/Bookmarks";
+import SearchNews from "../screens/SearchNews";
 
 const AppStackNavigator = createStackNavigator({
   HomeScreen: {
@@ -22,6 +24,12 @@ const AppStackNavigator = createStackNavigator({
   },
   NewsFeed: {
     screen: NewsFeed
+  },
+  Bookmarks: {
+    screen: Bookmarks
+  },
+  SearchNews: {
+    screen: SearchNews
   },
   FeedView: {
     screen: FeedView,
@@ -43,11 +51,10 @@ class BlinkText extends Component {
     this.state = {
       isShowing: true
     };
-
+  }
+  async componentWillMount() {
     setInterval(() => {
-      this.setState(previousState => {
-        return { isShowing: !previousState.isShowing };
-      });
+      this.isShowing=!this.state.isShowing
     }, 1000);
   }
   render() {
@@ -91,7 +98,7 @@ export default class SpalshScreen extends Component {
       function() {
         this.setState({ isLoading: true });
       }.bind(this),
-      200
+      500
     );
   }
 
@@ -107,7 +114,7 @@ export default class SpalshScreen extends Component {
       osName = "Android";
     }
     if (this.state.isLoading) {
-      return <AppStackNavigator />;
+       return <AppStackNavigator />;
     } else {
       return (
         <View style={styles.container}>
