@@ -14,14 +14,12 @@ export default class PagerItem extends Component {
     super(props);
   }
 
-  onNewsFeedBannerClicked(value) {
+  onNewsFeedBannerClicked(title,category) {
     this.props.navigation.navigate("NewsFeed", {
-      title: value
+      title: title,
+      category:category
     });
-  }
 
-  onCLickes(value) {
-    alert(value);
   }
 
   render() {
@@ -35,7 +33,7 @@ export default class PagerItem extends Component {
         />
         <TouchableHighlight
           style={styles.footerContainer}
-          onPress={() => this.onNewsFeedBannerClicked("hello")}
+          onPress={() => this.onNewsFeedBannerClicked(this.props.name,this.props.category)}
         >
           <View style={styles.footerContainer}>
             <Text style={styles.title}>{this.props.name}</Text>

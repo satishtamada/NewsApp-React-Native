@@ -4,11 +4,13 @@ import {
   Image,
   Text,
   Dimensions,
+  AsyncStorage,
   StyleSheet,
   TouchableOpacity
 } from "react-native";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
 
+const bookmarksArray = [];
 export default class Bookmarks extends Component {
   constructor() {
     super();
@@ -16,9 +18,36 @@ export default class Bookmarks extends Component {
       isBookMarksAvailables: false
     };
   }
+
+  componentDidMount() {
+    setTimeout(
+      function() {
+        this.getUserData();
+      }.bind(this),
+      200
+    );
+  }
+
+  async getUserData() {
+    try {
+      const bookmarksString = await AsyncStorage.getItem("@MyStore:bookmarks");
+      if (bookmarksString !== null) {
+        // We have data!!
+        //bookmarksArray = JSON.parse(bookmarksString);
+
+        this.setState({
+          isBookMarksAvailables: true
+        });
+      }
+    } catch (error) {
+      // Error retrieving data
+      alert(error);
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft: <NavigationBackButton />,
+      headerLeft: <NavigationBackButton navigation={navigation} />,
       title: navigation.state.params.title,
       headerStyle: {
         backgroundColor: "#0050ff"
@@ -37,7 +66,7 @@ export default class Bookmarks extends Component {
     if (this.state.isBookMarksAvailables) {
       bookmarksList = (
         <View>
-          <Text>List</Text>
+          <Text>Empty list</Text>
         </View>
       );
     } else {

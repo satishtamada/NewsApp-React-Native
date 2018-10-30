@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Dimensions,
-  ListView
+  ListView,
+  ActivityIndicator
 } from "react-native";
 import { IndicatorViewPager, PagerDotIndicator } from "rn-viewpager";
 import * as appConst from "../../src/config/Config";
@@ -44,7 +45,7 @@ export default class HomeScreen extends Component {
   }
 
   _renderDotIndicator() {
-    return <PagerDotIndicator pageCount={3} />;
+    return <PagerDotIndicator pageCount={7} />;
   }
 
   onNewsFeedBannerClicked(rowData) {
@@ -57,6 +58,13 @@ export default class HomeScreen extends Component {
       publishedAt: rowData.publishedAt
     });
   }
+
+  onChannelsClicked() {
+    this.props.navigation.navigate("ChannelsList", {
+      title: "Channels"
+    });
+  }
+
   onBookmarksListClicked() {
     this.props.navigation.navigate("Bookmarks", {
       title: "Bookmarks"
@@ -68,69 +76,23 @@ export default class HomeScreen extends Component {
     });
   }
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <IndicatorViewPager
-            style={{ flex: 1 }}
-            indicator={this._renderDotIndicator()}
-          >
-            <View>
-              <PagerItem
-                name="Tech"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
-              />
-            </View>
-            <View>
-              <PagerItem
-                name="Sports"
-                url="https://i.amz.mshcdn.com/QmY_VRk40y1QTiLJ24VFHHSJAaM=/1200x630/2018%2F10%2F04%2F8a%2F7ec72af7b5df413b9c9671f791017097.ca516.jpg"
-              />
-            </View>
-
-            <View>
-              <PagerItem
-                name="Tech"
-                url="https://i.amz.mshcdn.com/HJCeyphv-e4ID3xiRPXcqQQxPyU=/1200x630/2018%2F10%2F09%2Ff0%2F03254e2386a54cf6b7e224e0e6dd13dd.dbe5f.jpg"
-              />
-            </View>
-          </IndicatorViewPager>
-
-          <View
-            style={{
-              justifyContent: "flex-end",
-              width: screenWidth,
-              flexDirection: "row",
-              padding: 15,
-              right: 0,
-              position: "absolute",
-              backgroundColor: "rgba(0, 0, 0, 0.3)"
-            }}
-          >
-            <TouchableHighlight onPress={() => this.onBookmarksListClicked()}>
-              <Image
-                source={require("../images/ic_bookmark_list.png")}
-                style={{ width: 25, height: 25, marginRight: 15 }}
-              />
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => this.onSearchClicked()}>
-              <Image
-                source={require("../images/ic_search.png")}
-                style={{ width: 25, height: 25 }}
-              />
-            </TouchableHighlight>
-          </View>
+    const { navigation } = this.props;
+    var newsFeed;
+    if (!this.state.isLoading) {
+      newsFeed = (
+        <View>
+          <ActivityIndicator />
         </View>
-
-        <View style={styles.bodyContainer}>
-          <Text style={{ padding: 10, fontWeight: "bold" }}>Top Headlines</Text>
+      );
+    } else {
+      newsFeed = (
+        <View>
           <ListView
             enableEmptySections={true}
             dataSource={this.state.dataSource}
             renderRow={rowData => (
               <View style={styles.listitem}>
-                <TouchableHighlight
+                <TouchableOpacity
                   onPress={() => this.onNewsFeedBannerClicked(rowData)}
                 >
                   <View style={styles.feedItem}>
@@ -152,19 +114,133 @@ export default class HomeScreen extends Component {
                       </Text>
                     </View>
                     <Image
+                      defaultSource={require("../images/ic_news.png")}
                       source={{ uri: rowData.urlToImage }}
                       style={{
                         flex: 0.3,
                         padding: 10,
                         width: 100,
-                        height: 100
+                        height: 100,
+                        backgroundColor: "#c4c4c4"
                       }}
                     />
                   </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
             )}
           />
+        </View>
+      );
+    }
+    return (
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <IndicatorViewPager
+            style={{ flex: 1 }}
+            indicator={this._renderDotIndicator()}
+          >
+            {/* business entertainment general health science sports technology */}
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Business"
+                category="business"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Entertainment"
+                category="entertainment"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="General"
+                category="general"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Health"
+                category="health"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Science"
+                category="science"
+                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Sports"
+                category="sports"
+                url="https://i.amz.mshcdn.com/QmY_VRk40y1QTiLJ24VFHHSJAaM=/1200x630/2018%2F10%2F04%2F8a%2F7ec72af7b5df413b9c9671f791017097.ca516.jpg"
+              />
+            </View>
+
+            <View>
+              <PagerItem
+                navigation={navigation}
+                name="Technology"
+                category="technology"
+                url="https://i.amz.mshcdn.com/HJCeyphv-e4ID3xiRPXcqQQxPyU=/1200x630/2018%2F10%2F09%2Ff0%2F03254e2386a54cf6b7e224e0e6dd13dd.dbe5f.jpg"
+              />
+            </View>
+          </IndicatorViewPager>
+
+          <View
+            style={{
+              justifyContent: "flex-end",
+              width: screenWidth,
+              flexDirection: "row",
+              padding: 15,
+              right: 0,
+              position: "absolute",
+              backgroundColor: "rgba(0, 0, 0, 0.3)"
+            }}
+          >
+            <TouchableHighlight onPress={() => this.onChannelsClicked()}>
+              <Image
+                source={require("../images/ic_news_channels.png")}
+                style={{ width: 25, height: 25, marginRight: 15 }}
+              />
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => this.onBookmarksListClicked()}>
+              <Image
+                source={require("../images/ic_bookmark_list.png")}
+                style={{ width: 25, height: 25, marginRight: 15 }}
+              />
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => this.onSearchClicked()}>
+              <Image
+                source={require("../images/ic_search.png")}
+                style={{ width: 25, height: 25 }}
+              />
+            </TouchableHighlight>
+          </View>
+        </View>
+
+        <View style={styles.bodyContainer}>
+          <Text style={{ padding: 10, fontWeight: "bold" }}>Top Headlines</Text>
+          {newsFeed}
         </View>
       </View>
     );

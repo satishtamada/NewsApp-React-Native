@@ -14,6 +14,8 @@ import NewsWebView from "../screens/NewsWebView";
 import HomeScreen from "../screens/HomeScreen";
 import Bookmarks from "../screens/Bookmarks";
 import SearchNews from "../screens/SearchNews";
+import ChannelsList from "../screens/ChannelsList";
+
 
 const AppStackNavigator = createStackNavigator({
   HomeScreen: {
@@ -24,6 +26,9 @@ const AppStackNavigator = createStackNavigator({
   },
   NewsFeed: {
     screen: NewsFeed
+  },
+  ChannelsList: {
+    screen: ChannelsList
   },
   Bookmarks: {
     screen: Bookmarks

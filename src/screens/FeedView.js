@@ -5,16 +5,19 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  AsyncStorage,
   TouchableOpacity
 } from "react-native";
 
 const screenWidht = Dimensions.get("window").width;
 
+var bookmarkUrl = "";
 export default class FeedView extends Component {
   constructor(props) {
     super(props);
-    this.setState = {
-      isChecked: false
+    this.state = {
+      bookmarkUrl: require("../images/ic_bookmark_unselect.png"),
+      loadingImage: false
     };
   }
 
@@ -24,22 +27,45 @@ export default class FeedView extends Component {
     });
   }
 
-  onBookmarkClicked(url) {
-    this.isChecked = true;
+  async onBookmarkClicked(url) {
+    try {
+      const bookmarksString = JSON.stringify(url);
+      alert(bookmarksString);
+
+      await AsyncStorage.setItem("@MyStore:bookmarks", bookmarksString);
+      this.setState({
+        bookmarkUrl: require("../images/ic_bookmark_selected.png")
+      });
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+  onImageLoaded(url) {
+    this.setState({
+      bannerUrl: { uri: url }
+    });
+  }
+
+  onImageError() {
+    this.setState({
+      bookmarkUrl: require("../images/ic_bookmark_selected.png")
+    });
   }
 
   render() {
     const { params } = this.props.navigation.state;
-    let bookmark;
-    if (this.isChecked) {
-      bookmark = require("../images/ic_more.png");
+    var imagePath;
+    if (params.urlToImage == null) {
+      imagePath = require("../images/ic_image_placeholder.jpg");
     } else {
-      bookmark = require("../images/ic_bookmark_selected.png");
+      imagePath = {
+        uri: params.urlToImage
+      };
     }
-
     return (
       <View style={styles.container}>
-        <Image source={{ uri: params.urlToImage }} style={styles.image} />
+        <Image source={imagePath} style={styles.image} />
 
         <View style={styles.bodyContainer}>
           <View
@@ -51,8 +77,13 @@ export default class FeedView extends Component {
             }}
           >
             <Text style={styles.authorName}>{params.author}</Text>
-            <TouchableOpacity onPress={() => this.onBookmarkClicked("dad")}>
-              <Image source={bookmark} style={{ width: 25, height: 25 }} />
+            <TouchableOpacity
+              onPress={() => this.onBookmarkClicked(params.url)}
+            >
+              <Image
+                source={this.state.bookmarkUrl}
+                style={{ width: 25, height: 25 }}
+              />
             </TouchableOpacity>
           </View>
 

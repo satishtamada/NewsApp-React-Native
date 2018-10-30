@@ -5,11 +5,16 @@ export default class NavigationBackButton extends Component {
   constructor(props) {
     super(props);
   }
+
+  onBackPressed() {
+    alert("here");
+  }
+
   render() {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => this.onBackPressed()}
           style={{
             alignSelf: "stretch",
             justifyContent: "center",

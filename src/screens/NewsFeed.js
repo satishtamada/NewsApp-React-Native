@@ -15,6 +15,7 @@ import FeedView from "../screens/FeedView";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
 
 var feed = [];
+
 export default class NewsFeed extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -32,11 +33,13 @@ export default class NewsFeed extends Component {
       }
     };
   };
+
   constructor() {
     super();
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
+
     this.state = {
       dataSource: ds.cloneWithRows(feed),
       isLoading: false
@@ -58,6 +61,7 @@ export default class NewsFeed extends Component {
         console.log("reset client error-------", error);
       });
   }
+
   onListItemClicked(rowData) {
     this.props.navigation.navigate("FeedView", {
       author: rowData.author,
@@ -68,6 +72,7 @@ export default class NewsFeed extends Component {
       publishedAt: rowData.publishedAt
     });
   }
+
   render() {
     const { navigate } = this.props.navigation;
     if (this.state.isLoading) {
