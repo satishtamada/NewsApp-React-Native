@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  ListView,
+  FlatList,
   TouchableHighlight,
   Dimensions,
   Keyboard,
@@ -13,19 +13,14 @@ import {
 } from "react-native";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
 import * as appConst from "../../src/config/Config";
-var feed = [];
 
 export default class SearchNews extends Component {
   constructor() {
     super();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-
     this.state = {
       value: "",
-      dataSource: ds.cloneWithRows(feed),
-      isLoading: false
+      isLoading: false,
+      resultsList: []
     };
   }
   static navigationOptions = ({ navigation }) => {
@@ -61,9 +56,7 @@ export default class SearchNews extends Component {
         .then(response => response.json())
         .then(responseJson => {
           this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(
-              responseJson.articles
-            ),
+            resultsList: responseJson.articles,
             isLoading: true
           });
         })
@@ -89,26 +82,22 @@ export default class SearchNews extends Component {
     if (this.state.isLoading) {
       searchResults = (
         <View>
-          <ListView
+          <FlatList
             enableEmptySections={true}
-            dataSource={this.state.dataSource}
-            renderRow={rowData => (
+            data={this.state.resultsList}
+            renderItem={({ item }) => (
               <View style={styles.listitem}>
-                <TouchableOpacity
-                  onPress={() => this.onListItemClicked(rowData)}
-                >
+                <TouchableOpacity onPress={() => this.onListItemClicked(item)}>
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
-                      <Text style={styles.authorName}>{rowData.author}</Text>
+                      <Text style={styles.authorName}>{item.author}</Text>
                       <Text numberOfLines={2} style={styles.title}>
-                        {rowData.title}
+                        {item.title}
                       </Text>
-                      <Text style={styles.publishedAt}>
-                        {rowData.publishedAt}
-                      </Text>
+                      <Text style={styles.publishedAt}>{item.publishedAt}</Text>
                     </View>
                     <Image
-                      source={{ uri: rowData.urlToImage }}
+                      source={{ uri: item.urlToImage }}
                       style={{
                         flex: 0.3,
                         padding: 10,
@@ -120,6 +109,7 @@ export default class SearchNews extends Component {
                 </TouchableOpacity>
               </View>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       );

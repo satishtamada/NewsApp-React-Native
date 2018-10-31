@@ -3,18 +3,18 @@ import {
   View,
   Text,
   Image,
-  ListView,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
-  TouchableHighlight
+  TouchableHighlight,
+  FlatList
 } from "react-native";
 import * as appConst from "../../src/config/Config";
-import FeedView from "../screens/FeedView";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
+import NewsFeedErrorView from "../../src/components/NewsFeedErrorView";
 
-var feed = [];
+const screen_width = Dimensions.get("window").width;
 
 export default class NewsFeed extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -36,13 +36,10 @@ export default class NewsFeed extends Component {
 
   constructor() {
     super();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-
     this.state = {
-      dataSource: ds.cloneWithRows(feed),
-      isLoading: false
+      isLoading: false,
+      newsFeedList: [],
+      resultStatus: 0
     };
   }
 
@@ -51,14 +48,15 @@ export default class NewsFeed extends Component {
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(
-            responseJson.articles
-          ),
+          resultStatus: 1,
+          newsFeedList: responseJson.articles,
           isLoading: true
         });
       })
       .catch(error => {
-        console.log("reset client error-------", error);
+        this.setState({
+          resultStatus: 2
+        });
       });
   }
 
@@ -75,29 +73,29 @@ export default class NewsFeed extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    if (this.state.isLoading) {
-      return (
+    var FeedResults;
+    if (this.state.resultStatus === 1) {
+      FeedResults = (
         <View>
-          <ListView
+          <FlatList
+            style={{ flex: 1, width: screen_width }}
             enableEmptySections={true}
-            dataSource={this.state.dataSource}
-            renderRow={rowData => (
+            data={this.state.newsFeedList}
+            renderItem={({ item }) => (
               <View style={styles.listitem}>
                 <TouchableHighlight
-                  onPress={() => this.onListItemClicked(rowData)}
+                  onPress={() => this.onListItemClicked(item)}
                 >
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
-                      <Text style={styles.authorName}>{rowData.author}</Text>
+                      <Text style={styles.authorName}>{item.author}</Text>
                       <Text numberOfLines={2} style={styles.title}>
-                        {rowData.title}
+                        {item.title}
                       </Text>
-                      <Text style={styles.publishedAt}>
-                        {rowData.publishedAt}
-                      </Text>
+                      <Text style={styles.publishedAt}>{item.publishedAt}</Text>
                     </View>
                     <Image
-                      source={{ uri: rowData.urlToImage }}
+                      source={{ uri: item.urlToImage }}
                       style={{
                         flex: 0.3,
                         padding: 10,
@@ -109,18 +107,28 @@ export default class NewsFeed extends Component {
                 </TouchableHighlight>
               </View>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       );
+    } else if (this.state.resultStatus === 2) {
+      FeedResults = (
+        <View>
+          <NewsFeedErrorView />
+        </View>
+      );
     } else {
-      return (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
+      FeedResults = (
+        <View>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     }
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        {FeedResults}
+      </View>
+    );
   }
 }
 

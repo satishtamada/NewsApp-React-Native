@@ -57,11 +57,13 @@ class BlinkText extends Component {
       isShowing: true
     };
   }
+  
   async componentWillMount() {
     setInterval(() => {
       this.isShowing=!this.state.isShowing
     }, 1000);
   }
+
   render() {
     if (this.state.isShowing) {
       return (

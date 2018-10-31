@@ -7,24 +7,23 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Dimensions,
-  ListView,
+  FlatList,
   ActivityIndicator
 } from "react-native";
 import { IndicatorViewPager, PagerDotIndicator } from "rn-viewpager";
 import * as appConst from "../../src/config/Config";
 import PagerItem from "../../src/components/PagerItem";
 
-var feed = [];
 const screenWidth = Dimensions.get("window").width;
+
 export default class HomeScreen extends Component {
   constructor() {
     super();
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
     this.state = {
-      dataSource: ds.cloneWithRows(feed),
-      isLoading: false
+      isLoading: false,
+      responseStatus: 0,
+      newFeedList: []
     };
   }
 
@@ -33,14 +32,15 @@ export default class HomeScreen extends Component {
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(
-            responseJson.articles
-          ),
-          isLoading: true
+          newFeedList: responseJson.articles,
+          isLoading: true,
+          responseStatus: 1
         });
       })
       .catch(error => {
-        console.log("reset client error-------", error);
+        this.setState({
+          responseStatus: 2
+        });
       });
   }
 
@@ -78,26 +78,27 @@ export default class HomeScreen extends Component {
   render() {
     const { navigation } = this.props;
     var newsFeed;
-    if (!this.state.isLoading) {
+    if (this.state.responseStatus === 0) {
       newsFeed = (
         <View>
           <ActivityIndicator />
         </View>
       );
-    } else {
+    } else if (this.state.responseStatus === 1) {
       newsFeed = (
         <View>
-          <ListView
+          <FlatList
+            style={{ flex: 1, width: screenWidth }}
             enableEmptySections={true}
-            dataSource={this.state.dataSource}
-            renderRow={rowData => (
+            data={this.state.newFeedList}
+            renderItem={({ item }) => (
               <View style={styles.listitem}>
                 <TouchableOpacity
-                  onPress={() => this.onNewsFeedBannerClicked(rowData)}
+                  onPress={() => this.onNewsFeedBannerClicked(item)}
                 >
                   <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
-                      <Text style={styles.authorName}>{rowData.author}</Text>
+                      <Text style={styles.authorName}>{item.author}</Text>
                       <Text
                         numberOfLines={2}
                         style={{
@@ -107,15 +108,13 @@ export default class HomeScreen extends Component {
                           fontSize: 16
                         }}
                       >
-                        {rowData.title}
+                        {item.title}
                       </Text>
-                      <Text style={styles.publishedAt}>
-                        {rowData.publishedAt}
-                      </Text>
+                      <Text style={styles.publishedAt}>{item.publishedAt}</Text>
                     </View>
                     <Image
                       defaultSource={require("../images/ic_news.png")}
-                      source={{ uri: rowData.urlToImage }}
+                      source={{ uri: item.urlToImage }}
                       style={{
                         flex: 0.3,
                         padding: 10,
@@ -128,7 +127,14 @@ export default class HomeScreen extends Component {
                 </TouchableOpacity>
               </View>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
+        </View>
+      );
+    } else {
+      newsFeed = (
+        <View>
+          <Text>It's seems you don't have internet connection..!</Text>
         </View>
       );
     }
@@ -211,8 +217,7 @@ export default class HomeScreen extends Component {
               flexDirection: "row",
               padding: 15,
               right: 0,
-              position: "absolute",
-              backgroundColor: "rgba(0, 0, 0, 0.3)"
+              position: "absolute"
             }}
           >
             <TouchableHighlight onPress={() => this.onChannelsClicked()}>
@@ -266,6 +271,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   bodyContainer: {
+    alignItems: "center",
     flex: 0.6,
     flexDirection: "column",
     backgroundColor: "#f0f4f5"

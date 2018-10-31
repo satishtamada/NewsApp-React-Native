@@ -11,14 +11,39 @@ import {
 
 const screenWidht = Dimensions.get("window").width;
 
-var bookmarkUrl = "";
 export default class FeedView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bookmarkUrl: require("../images/ic_bookmark_unselect.png"),
-      loadingImage: false
+      loadingImage: false,
+      bookmarksList: []
     };
+  }
+
+  componentDidMount() {
+    setTimeout(
+      function() {
+        this.getBookmarksList();
+      }.bind(this),
+      200
+    );
+  }
+
+  //get the bookmarks list from the storage
+  async getBookmarksList() {
+    try {
+      const bookmarksString = await AsyncStorage.getItem("@MyStore:bookmarks");
+      if (bookmarksString !== null) {
+        // set the bookmarks list
+        this.setState({
+          bookmarksList: JSON.parse(bookmarksString)
+        });
+      }
+    } catch (error) {
+      // Error retrieving data
+      alert(error);
+    }
   }
 
   onFindMoreDetailsClicked(url) {
@@ -27,17 +52,24 @@ export default class FeedView extends Component {
     });
   }
 
-  async onBookmarkClicked(url) {
+  async onBookmarkClicked(urlToImage, author, url, title, description) {
+    var index = this.state.bookmarksList.length;
+    this.state.bookmarksList.push({
+      url: url,
+      title: title,
+      image: urlToImage,
+      desc: description,
+      author: author,
+      position: index
+    });
     try {
-      const bookmarksString = JSON.stringify(url);
-      alert(bookmarksString);
-
+      const bookmarksString = JSON.stringify(this.state.bookmarksList);
       await AsyncStorage.setItem("@MyStore:bookmarks", bookmarksString);
       this.setState({
         bookmarkUrl: require("../images/ic_bookmark_selected.png")
       });
     } catch (error) {
-      // Error saving data
+      alert("unable to add bookmark");
     }
   }
 
@@ -78,7 +110,15 @@ export default class FeedView extends Component {
           >
             <Text style={styles.authorName}>{params.author}</Text>
             <TouchableOpacity
-              onPress={() => this.onBookmarkClicked(params.url)}
+              onPress={() =>
+                this.onBookmarkClicked(
+                  params.urlToImage,
+                  params.author,
+                  params.url,
+                  params.title,
+                  params.description
+                )
+              }
             >
               <Image
                 source={this.state.bookmarkUrl}
