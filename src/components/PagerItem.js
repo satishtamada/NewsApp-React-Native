@@ -11,13 +11,28 @@ const screenWidth = Dimensions.get("window").width;
 import * as appConst from "../../src/config/Config";
 
 export default class PagerItem extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      newsList: [],
-      newsDesc: "Description"
+      isLoading: false,
+      newsFeedHealth: []
     };
   }
+
+  // async componentWillMount() {
+  //   fetch(appConst.NEWS_TEST_URL)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       this.setState({
+  //         newsFeedHealth: responseJson.articles,
+  //         newsDesc:responseJson.articles[0].title
+  //       });
+  //       alert(this.state.newsFeedHealth[0].title+" hello ram");
+  //     })
+  //     .catch(error => {
+  //       alert(error);
+  //     });
+  // }
 
   onNewsFeedBannerClicked(title, category) {
     this.props.navigation.navigate("NewsFeed", {
@@ -27,6 +42,10 @@ export default class PagerItem extends Component {
   }
 
   render() {
+    var imageUrl = require("../images/ic_android.png");
+    if (this.props.url != null) {
+      imageUrl = { uri: this.props.url };
+    }
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -34,16 +53,13 @@ export default class PagerItem extends Component {
             this.onNewsFeedBannerClicked(this.props.name, this.props.category)
           }
         >
-          <Image
-            style={styles.logo}
-            source={{
-              uri: this.props.url
-            }}
-          />
+          <Image style={styles.logo} source={imageUrl} />
 
           <View style={styles.footerContainer}>
             <Text style={styles.title}>{this.props.name}</Text>
-            <Text style={styles.description}>{this.state.newsDesc}</Text>
+            <Text style={styles.description} numberOfLines={2}>
+              {this.props.description}
+            </Text>
           </View>
           <View
             style={{

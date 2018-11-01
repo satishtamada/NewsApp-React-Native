@@ -15,7 +15,7 @@ import HomeScreen from "../screens/HomeScreen";
 import Bookmarks from "../screens/Bookmarks";
 import SearchNews from "../screens/SearchNews";
 import ChannelsList from "../screens/ChannelsList";
-
+import ChannelNewsFeed from "../screens/ChannelNewsFeed";
 
 const AppStackNavigator = createStackNavigator({
   HomeScreen: {
@@ -29,6 +29,9 @@ const AppStackNavigator = createStackNavigator({
   },
   ChannelsList: {
     screen: ChannelsList
+  },
+  ChannelNewsFeed: {
+    screen: ChannelNewsFeed
   },
   Bookmarks: {
     screen: Bookmarks
@@ -57,10 +60,10 @@ class BlinkText extends Component {
       isShowing: true
     };
   }
-  
+
   async componentWillMount() {
     setInterval(() => {
-      this.isShowing=!this.state.isShowing
+      this.isShowing = !this.state.isShowing;
     }, 1000);
   }
 
@@ -121,7 +124,7 @@ export default class SpalshScreen extends Component {
       osName = "Android";
     }
     if (this.state.isLoading) {
-       return <AppStackNavigator />;
+      return <AppStackNavigator />;
     } else {
       return (
         <View style={styles.container}>

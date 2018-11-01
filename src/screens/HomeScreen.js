@@ -23,7 +23,11 @@ export default class HomeScreen extends Component {
     this.state = {
       isLoading: false,
       responseStatus: 0,
-      newFeedList: []
+      newFeedList: [],
+      sportsBanner: "",
+      sportsDescription: "",
+      newsFeedSports: [],
+      newsFeedHealth: []
     };
   }
 
@@ -42,6 +46,22 @@ export default class HomeScreen extends Component {
           responseStatus: 2
         });
       });
+
+    var news_category_url =
+      appConst.NEWS_CATEGORY +
+      "sports&country=us&apiKey=" +
+      appConst.NEWS_API_KEY;
+
+    fetch(news_category_url)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          newsFeedSports: responseJson.articles,
+          sportsBanner: responseJson.articles[0].urlToImage,
+          sportsDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {});
   }
 
   _renderDotIndicator() {
@@ -138,6 +158,7 @@ export default class HomeScreen extends Component {
         </View>
       );
     }
+
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -196,7 +217,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Sports"
                 category="sports"
-                url="https://i.amz.mshcdn.com/QmY_VRk40y1QTiLJ24VFHHSJAaM=/1200x630/2018%2F10%2F04%2F8a%2F7ec72af7b5df413b9c9671f791017097.ca516.jpg"
+                description={this.state.sportsDescription}
+                url={this.state.sportsBanner}
               />
             </View>
 

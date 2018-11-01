@@ -56,7 +56,14 @@ export default class ChannelsList extends Component {
       });
   }
 
-  onChannelItemClicked(url) {
+  onChannelItemClicked(source,name) {
+    this.props.navigation.navigate("ChannelNewsFeed", {
+      source: source,
+      title: name
+    });
+  }
+
+  openChannelWebsite(url) {
     this.props.navigation.navigate("NewsWebView", {
       url: url
     });
@@ -80,16 +87,39 @@ country: "us" */}
             renderItem={({ item }) => (
               <View style={styles.listitem}>
                 <TouchableOpacity
-                  onPress={() => this.onChannelItemClicked(item.url)}
+                  onPress={() => this.onChannelItemClicked(item.id,item.name)}
                 >
-                  <View style={styles.feedItem}>
-                    <Image
-                      source={require("../images/ic_channel_placeholder.png")}
-                      style={{ width: 25, height: 25 }}
-                    />
-                    <Text style={{ padding: 10, fontSize: 17 }}>
-                      {item.name}
+                  <View style={{ flexDirection: "column" }}>
+                    <View style={styles.feedItem}>
+                      <Image
+                        source={require("../images/ic_channel_placeholder.png")}
+                        style={{ width: 25, height: 25 }}
+                      />
+                      <Text style={{ padding: 10, fontSize: 17 }}>
+                        {item.name}
+                      </Text>
+                    </View>
+                    <Text
+                      style={{
+                        paddingRight: 10,
+                        paddingLeft: 10,
+                        paddingBottom: 5,
+                        fontSize: 15
+                      }}
+                    >
+                      {item.description}
                     </Text>
+                    <TouchableOpacity
+                      onPress={() => this.openChannelWebsite(item.url)}
+                    >
+                      <View
+                        style={{ width: screen_width, alignItems: "center" }}
+                      >
+                        <Text style={{ padding: 5, color: "#0000ff" }}>
+                          Go to website
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -145,6 +175,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
-    padding: 10
+    padding: 8
   }
 });

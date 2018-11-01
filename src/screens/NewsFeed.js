@@ -34,17 +34,25 @@ export default class NewsFeed extends Component {
     };
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoading: false,
       newsFeedList: [],
-      resultStatus: 0
+      resultStatus: 0,
+      category: props.category
     };
   }
 
   async componentWillMount() {
-    fetch(appConst.NEWS_TEST_URL)
+    var value = this.props.navigation.state.params.category;
+    var news_category_url =
+      appConst.NEWS_CATEGORY +
+      value +
+      "&country=us&apiKey=" +
+      appConst.NEWS_API_KEY;
+
+    fetch(news_category_url)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -100,7 +108,8 @@ export default class NewsFeed extends Component {
                         flex: 0.3,
                         padding: 10,
                         width: 100,
-                        height: 100
+                        height: 100,
+                        backgroundColor: "#c4c4c4"
                       }}
                     />
                   </View>
