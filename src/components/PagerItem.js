@@ -42,10 +42,12 @@ export default class PagerItem extends Component {
   }
 
   render() {
-    var imageUrl = require("../images/ic_android.png");
+    var imageurl =
+      "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/src/images/ic_banner.jpg";
     if (this.props.url != null) {
-      imageUrl = { uri: this.props.url };
+      imageurl = this.props.url;
     }
+    var description = "Fetch your data";
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -53,7 +55,7 @@ export default class PagerItem extends Component {
             this.onNewsFeedBannerClicked(this.props.name, this.props.category)
           }
         >
-          <Image style={styles.logo} source={imageUrl} />
+          <Image style={styles.logo} source={{ uri: imageurl }} />
 
           <View style={styles.footerContainer}>
             <Text style={styles.title}>{this.props.name}</Text>

@@ -24,10 +24,27 @@ export default class HomeScreen extends Component {
       isLoading: false,
       responseStatus: 0,
       newFeedList: [],
-      sportsBanner: "",
+
+      businessBanner: appConst.BANNER_URL,
+      businessDescription: "",
+
+      entertainmentBanner: appConst.BANNER_URL,
+      entertainmentDescription: "",
+
+      genaralBanner: appConst.BANNER_URL,
+      genaralDescription: "",
+
+      healthBanner: appConst.BANNER_URL,
+      healthDescription: "",
+
+      sportsBanner: appConst.BANNER_URL,
       sportsDescription: "",
-      newsFeedSports: [],
-      newsFeedHealth: []
+
+      scienceBanner: appConst.BANNER_URL,
+      scienceDescription: "",
+
+      techBanner: appConst.BANNER_URL,
+      techDescription: ""
     };
   }
 
@@ -46,22 +63,122 @@ export default class HomeScreen extends Component {
           responseStatus: 2
         });
       });
+    this.getBusinessNewsData();
+    this.getGenaralData();
+    this.getEntertainmentData();
+    this.getSportsNewsData();
+    this.getHealthNewsData();
+    this.getScienceNewsData();
+    this.getTechNewsData();
+  }
 
-    var news_category_url =
-      appConst.NEWS_CATEGORY +
-      "sports&country=us&apiKey=" +
-      appConst.NEWS_API_KEY;
-
-    fetch(news_category_url)
+  getSportsNewsData() {
+    fetch(appConst.NEWS_SPORTS)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
-          newsFeedSports: responseJson.articles,
           sportsBanner: responseJson.articles[0].urlToImage,
           sportsDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  getSportsNewsData() {
+    fetch(appConst.NEWS_SPORTS)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          sportsBanner: responseJson.articles[0].urlToImage,
+          sportsDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+  getHealthNewsData() {
+    fetch(appConst.NEWS_HEALTH)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          healthBanner: responseJson.articles[0].urlToImage,
+          healthDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+  getScienceNewsData() {
+    fetch(appConst.NEWS_SCIENCE)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          scienceBanner: responseJson.articles[0].urlToImage,
+          scienceDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+  getTechNewsData() {
+    fetch(appConst.NEWS_TECHNOLOGY)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          techBanner: responseJson.articles[0].urlToImage,
+          techDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  getGenaralData() {
+    fetch(appConst.NEWS_GENERAL)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          genaralBanner: responseJson.articles[0].urlToImage,
+          genaralDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  getEntertainmentData() {
+    fetch(appConst.NEWS_ENTERTINMENT)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          entertainmentBanner: responseJson.articles[0].urlToImage,
+          entertainmentDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
+  }
+
+  getBusinessNewsData() {
+    fetch(appConst.NEWS_BUSINESS)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          businessBanner: responseJson.articles[0].urlToImage,
+          businessDescription: responseJson.articles[0].description
+        });
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 
   _renderDotIndicator() {
@@ -172,7 +289,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Business"
                 category="business"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+                description={this.state.businessDescription}
+                url={this.state.businessBanner}
               />
             </View>
 
@@ -181,7 +299,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Entertainment"
                 category="entertainment"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+                description={this.state.entertainmentDescription}
+                url={this.state.entertainmentBanner}
               />
             </View>
 
@@ -190,7 +309,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="General"
                 category="general"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+                description={this.state.genaralDescription}
+                url={this.state.genaralBanner}
               />
             </View>
 
@@ -199,7 +319,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Health"
                 category="health"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+                description={this.state.healthDescription}
+                url={this.state.healthBanner}
               />
             </View>
 
@@ -208,7 +329,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Science"
                 category="science"
-                url="https://i.kinja-img.com/gawker-media/image/upload/s--PNvLT0lH--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/nohdjhahrp47nwogocku.jpg"
+                description={this.state.scienceDescription}
+                url={this.state.scienceBanner}
               />
             </View>
 
@@ -227,7 +349,8 @@ export default class HomeScreen extends Component {
                 navigation={navigation}
                 name="Technology"
                 category="technology"
-                url="https://i.amz.mshcdn.com/HJCeyphv-e4ID3xiRPXcqQQxPyU=/1200x630/2018%2F10%2F09%2Ff0%2F03254e2386a54cf6b7e224e0e6dd13dd.dbe5f.jpg"
+                description={this.state.techDescription}
+                url={this.state.techBanner}
               />
             </View>
           </IndicatorViewPager>
