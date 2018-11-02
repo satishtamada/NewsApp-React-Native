@@ -11,5 +11,5 @@ This article will take a comprehensive look at working with files and folders.It
  * play your audio,video files
  * open image files
 
-![alt tag](https://github.com/satishtamada/NewsApp-React-Native/blob/master/screensshots/splashscreen.png)
+![alt tag](https://github.com/satishtamada/NewsApp-React-Native/blob/master/screensshots/ic_banner.jpg)
 
