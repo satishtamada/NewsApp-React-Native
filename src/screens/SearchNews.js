@@ -9,10 +9,12 @@ import {
   TouchableHighlight,
   Dimensions,
   Keyboard,
+  ActivityIndicator,
   TextInput
 } from "react-native";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
 import * as appConst from "../../src/config/Config";
+import EmptySearchResultsView from "../../src/components/EmptySearchResultsView";
 
 export default class SearchNews extends Component {
   constructor() {
@@ -20,6 +22,7 @@ export default class SearchNews extends Component {
     this.state = {
       value: "",
       isLoading: false,
+      searchResultsStatus: 0,
       resultsList: []
     };
   }
@@ -46,6 +49,10 @@ export default class SearchNews extends Component {
       alert("Enter your search text");
     } else {
       Keyboard.dismiss();
+      this.setState({
+        searchResultsStatus: 1
+      });
+
       var search_url =
         appConst.NEWS_BASE_URL +
         "everything?q=" +
@@ -55,13 +62,25 @@ export default class SearchNews extends Component {
       fetch(search_url)
         .then(response => response.json())
         .then(responseJson => {
-          this.setState({
-            resultsList: responseJson.articles,
-            isLoading: true
-          });
+          if (responseJson.articles.length == 0) {
+            this.setState({
+              searchResultsStatus: 3,
+              resultsList: responseJson.articles,
+              isLoading: true
+            });
+          } else {
+            this.setState({
+              searchResultsStatus: 2,
+              resultsList: responseJson.articles,
+              isLoading: true
+            });
+          }
         })
         .catch(error => {
-          console.log("reset client error-------", error);
+          alert(error);
+          this.setState({
+            searchResultsStatus: 3
+          });
         });
     }
   }
@@ -79,7 +98,7 @@ export default class SearchNews extends Component {
 
   render() {
     var searchResults;
-    if (this.state.isLoading) {
+    if (this.state.searchResultsStatus == 2) {
       searchResults = (
         <View>
           <FlatList
@@ -113,19 +132,36 @@ export default class SearchNews extends Component {
           />
         </View>
       );
+    } else if (this.state.searchResultsStatus === 3) {
+      searchResults = (
+        <View style={{ alignItems: "center", flex: 1 }}>
+          <EmptySearchResultsView />
+        </View>
+      );
+    } else if (this.state.searchResultsStatus === 1) {
+      searchResults = (
+        <View
+          style={{
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "center",
+            flexDirection: "column"
+          }}
+        >
+          <ActivityIndicator />
+        </View>
+      );
     } else {
       searchResults = (
-        <View style={styles.emptyContainer}>
-          <Image
-            source={require("../images/ic_no_results.png")}
-            style={{ width: 100, height: 100 }}
-          />
-          <Text style={{ fontWeight: "bold", padding: 10, color: "#686868" }}>
-            NO RESULTS FOUND..!
-          </Text>
-          <Text style={{ color: "#848080" }}>
-            Enter something .Please try again.
-          </Text>
+        <View
+          style={{
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "center",
+            flexDirection: "column"
+          }}
+        >
+          <Text>Type somthing...</Text>
         </View>
       );
     }

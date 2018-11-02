@@ -1,7 +1,7 @@
 export const NEWS_API_KEY = "1b4b1d16914245aaaadb43bf197e3fd4";
 
 export const BANNER_URL =
-  "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/src/images/ic_banner.jpg";
+  "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/screensshots/ic_news_placeholder.jpg";
 
 export const NEWS_BASE_URL = "https://newsapi.org/v2/";
 

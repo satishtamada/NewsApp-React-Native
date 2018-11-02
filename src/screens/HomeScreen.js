@@ -26,25 +26,25 @@ export default class HomeScreen extends Component {
       newFeedList: [],
 
       businessBanner: appConst.BANNER_URL,
-      businessDescription: "",
+      businessDescription: "Loading ..",
 
       entertainmentBanner: appConst.BANNER_URL,
-      entertainmentDescription: "",
+      entertainmentDescription: "Loading ..",
 
       genaralBanner: appConst.BANNER_URL,
-      genaralDescription: "",
+      genaralDescription: "Loading ..",
 
       healthBanner: appConst.BANNER_URL,
-      healthDescription: "",
+      healthDescription: "Loading ..",
 
       sportsBanner: appConst.BANNER_URL,
-      sportsDescription: "",
+      sportsDescription: "Loading ..",
 
       scienceBanner: appConst.BANNER_URL,
-      scienceDescription: "",
+      scienceDescription: "Loading ..",
 
       techBanner: appConst.BANNER_URL,
-      techDescription: ""
+      techDescription: "Loading .."
     };
   }
 
@@ -81,9 +81,7 @@ export default class HomeScreen extends Component {
           sportsDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
 
   getSportsNewsData() {
@@ -95,9 +93,7 @@ export default class HomeScreen extends Component {
           sportsDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
   getHealthNewsData() {
     fetch(appConst.NEWS_HEALTH)
@@ -108,9 +104,7 @@ export default class HomeScreen extends Component {
           healthDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
   getScienceNewsData() {
     fetch(appConst.NEWS_SCIENCE)
@@ -121,9 +115,7 @@ export default class HomeScreen extends Component {
           scienceDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
   getTechNewsData() {
     fetch(appConst.NEWS_TECHNOLOGY)
@@ -134,9 +126,7 @@ export default class HomeScreen extends Component {
           techDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
 
   getGenaralData() {
@@ -148,9 +138,7 @@ export default class HomeScreen extends Component {
           genaralDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
 
   getEntertainmentData() {
@@ -162,9 +150,7 @@ export default class HomeScreen extends Component {
           entertainmentDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
 
   getBusinessNewsData() {
@@ -176,9 +162,7 @@ export default class HomeScreen extends Component {
           businessDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {
-        alert(error);
-      });
+      .catch(error => {});
   }
 
   _renderDotIndicator() {

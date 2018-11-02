@@ -43,11 +43,14 @@ export default class PagerItem extends Component {
 
   render() {
     var imageurl =
-      "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/src/images/ic_banner.jpg";
+      "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/screensshots/ic_news_placeholder.jpg";
     if (this.props.url != null) {
       imageurl = this.props.url;
     }
-    var description = "Fetch your data";
+    var description = "Loading..";
+    if (this.props.description != null) {
+      description = this.props.description;
+    }
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -60,7 +63,7 @@ export default class PagerItem extends Component {
           <View style={styles.footerContainer}>
             <Text style={styles.title}>{this.props.name}</Text>
             <Text style={styles.description} numberOfLines={2}>
-              {this.props.description}
+              {description}
             </Text>
           </View>
           <View

@@ -1,15 +1,20 @@
 # NewsApp
-React-Native NewsApp provides a user interface to manage files and folders. Here we develop a simple filemanager demo how to manage your internal and external files and folder on your android devices.
+NewsApps  - Developped in  react native.
 ## Overview
-This article will take a comprehensive look at working with files and folders.It provides a simple way to present a scrolling list of rows that can either files or folders.
+This article will take a comprehensive look at developing news app in react native .It provides a simple way to present news in a diffenrent category news .
+ 
+## NewsApp Usage
+ * top headlines
+ * adding news into bookmarks
+ * search news by a keyword
+ * channel list 
+ * category types
+ 
+ news response source url: https://newsapi.org
 
-## FileManager Usage
- * listing of all file from your internal and external memory
- * create folders or files
- * delete folders or files
- * edit your txt file 
- * play your audio,video files
- * open image files
-
+## Sucess response
 ![alt tag](https://github.com/satishtamada/NewsApp-React-Native/blob/master/screensshots/ic_banner.jpg)
+
+## Error or empty response
+![alt tag](https://github.com/satishtamada/NewsApp-React-Native/blob/master/screensshots/ic_empty_response.jpg)
 
