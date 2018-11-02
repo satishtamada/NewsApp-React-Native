@@ -1,7 +1,7 @@
 # NewsApp
-NewsApps  - Developped in  react native.
+NewsApps  - Developed in react native.
 ## Overview
-This article will take a comprehensive look at developing news app in react native .It provides a simple way to present news in a diffenrent category news .
+This article will take a comprehensive look at developing news app in react native. It provides a simple way to present news in a different category news.
  
 ## NewsApp Usage
  * top headlines
