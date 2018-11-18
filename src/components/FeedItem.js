@@ -5,7 +5,7 @@ export default class FeedItem extends Component {
 
     render() {
         var imageurl =
-            "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/src/images/ic_android.png";
+            "https://raw.githubusercontent.com/satishtamada/NewsApp-React-Native/master/src/images/ic_news_placeholder.png";
         if (this.props.url != null) {
             imageurl = this.props.url;
         }
