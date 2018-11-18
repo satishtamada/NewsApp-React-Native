@@ -13,6 +13,7 @@ import {
 import * as appConst from "../../src/config/Config";
 import NavigationBackButton from "../../src/components/NavigationBackButton";
 import NewsFeedErrorView from "../../src/components/NewsFeedErrorView";
+import FeedItem from "../../src/components/FeedItem";
 
 const screen_width = Dimensions.get("window").width;
 
@@ -20,8 +21,7 @@ export default class NewsFeed extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: <NavigationBackButton />,
-
-      title: navigation.state.params.title,
+      //title: navigation.state.params.title,
       headerStyle: {
         backgroundColor: "#0050ff"
       },
@@ -94,7 +94,7 @@ export default class NewsFeed extends Component {
                 <TouchableHighlight
                   onPress={() => this.onListItemClicked(item)}
                 >
-                  <View style={styles.feedItem}>
+                  {/* <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
                       <Text style={styles.authorName}>{item.author}</Text>
                       <Text numberOfLines={2} style={styles.title}>
@@ -112,7 +112,14 @@ export default class NewsFeed extends Component {
                         backgroundColor: "#c4c4c4"
                       }}
                     />
-                  </View>
+                  </View> */}
+
+                  <FeedItem
+                    author={item.author}
+                    title={item.title}
+                    publishedAt={item.publishedAt}
+                    url={item.urlToImage} />
+
                 </TouchableHighlight>
               </View>
             )}

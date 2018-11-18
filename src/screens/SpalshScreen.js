@@ -105,7 +105,7 @@ export default class SpalshScreen extends Component {
 
   componentDidMount() {
     setTimeout(
-      function() {
+      function () {
         this.setState({ isLoading: true });
       }.bind(this),
       500

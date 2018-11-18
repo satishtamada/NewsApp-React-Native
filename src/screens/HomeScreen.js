@@ -13,6 +13,7 @@ import {
 import { IndicatorViewPager, PagerDotIndicator } from "rn-viewpager";
 import * as appConst from "../../src/config/Config";
 import PagerItem from "../../src/components/PagerItem";
+import FeedItem from "../../src/components/FeedItem";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -81,7 +82,7 @@ export default class HomeScreen extends Component {
           sportsDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getSportsNewsData() {
@@ -93,7 +94,7 @@ export default class HomeScreen extends Component {
           sportsDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
   getHealthNewsData() {
     fetch(appConst.NEWS_HEALTH)
@@ -104,7 +105,7 @@ export default class HomeScreen extends Component {
           healthDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
   getScienceNewsData() {
     fetch(appConst.NEWS_SCIENCE)
@@ -115,7 +116,7 @@ export default class HomeScreen extends Component {
           scienceDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
   getTechNewsData() {
     fetch(appConst.NEWS_TECHNOLOGY)
@@ -126,7 +127,7 @@ export default class HomeScreen extends Component {
           techDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getGenaralData() {
@@ -138,7 +139,7 @@ export default class HomeScreen extends Component {
           genaralDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getEntertainmentData() {
@@ -150,7 +151,7 @@ export default class HomeScreen extends Component {
           entertainmentDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getBusinessNewsData() {
@@ -162,7 +163,7 @@ export default class HomeScreen extends Component {
           businessDescription: responseJson.articles[0].description
         });
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   _renderDotIndicator() {
@@ -217,7 +218,7 @@ export default class HomeScreen extends Component {
                 <TouchableOpacity
                   onPress={() => this.onNewsFeedBannerClicked(item)}
                 >
-                  <View style={styles.feedItem}>
+                  {/* <View style={styles.feedItem}>
                     <View style={{ flexDirection: "column", flex: 0.7 }}>
                       <Text style={styles.authorName}>{item.author}</Text>
                       <Text
@@ -235,7 +236,7 @@ export default class HomeScreen extends Component {
                     </View>
                     <Image
                       defaultSource={require("../images/ic_news.png")}
-                      source={{ uri: item.urlToImage }}
+                      source={{ uri: item.urlToImage}}
                       style={{
                         flex: 0.3,
                         padding: 10,
@@ -244,7 +245,12 @@ export default class HomeScreen extends Component {
                         backgroundColor: "#c4c4c4"
                       }}
                     />
-                  </View>
+                  </View> */}
+                  <FeedItem
+                    author={item.author}
+                    title={item.title}
+                    publishedAt={item.publishedAt}
+                    url={item.urlToImage} />
                 </TouchableOpacity>
               </View>
             )}
